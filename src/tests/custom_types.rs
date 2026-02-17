@@ -11,6 +11,8 @@ impl Serializable for User {
     fn validate(&self) -> Result<(), ValidationError> {
         if self.name.is_empty() {
             Err(ValidationError::EmptyValue)
+        } else if self.email.is_empty() {
+            Err(ValidationError::EmptyValue)
         } else {
             Ok(())
         }
@@ -36,12 +38,12 @@ fn test_pass() -> Result<(), StoreError> {
 #[test]
 fn test_validation_failed() {
     let mut store = Store::<u64, User>::new();
-    let user2 = User {
+    let user = User {
         id: 2,
-        name: "ali".into(),
-        email: "".into(),
+        name: "".into(),
+        email: "ali@example.com".into(),
     };
-    match store.set(user2.id, user2) {
+    match store.set(user.id, user) {
         Err(StoreError::ValidationFailed(ValidationError::EmptyValue)) => (),
         res => panic!("expected validation error, got {:?}", res),
     }

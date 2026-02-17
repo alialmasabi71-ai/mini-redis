@@ -9,7 +9,6 @@ pub trait Serializable: Debug + Clone {
         Ok(())
     }
 
-
     fn to_string_repr(&self) -> String {
         format!("{:?}", self)
     }
@@ -41,6 +40,16 @@ impl Serializable for i32 {
     }
 }
 
+impl Serializable for u32 {
+    fn to_string_repr(&self) -> String {
+        self.to_string()
+    }
+
+    fn size(&self) -> usize {
+        mem::size_of::<u32>()
+    }
+}
+
 impl Serializable for i64 {
     fn to_string_repr(&self) -> String {
         self.to_string()
@@ -48,6 +57,16 @@ impl Serializable for i64 {
 
     fn size(&self) -> usize {
         mem::size_of::<i64>()
+    }
+}
+
+impl Serializable for u64 {
+    fn to_string_repr(&self) -> String {
+        self.to_string()
+    }
+
+    fn size(&self) -> usize {
+        mem::size_of::<u64>()
     }
 }
 

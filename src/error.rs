@@ -23,6 +23,7 @@ pub enum StoreError {
     KeyNotFound,
     ValidationFailed(ValidationError),
     TypeMismatch { expected: &'static str, found: &'static str },
+    LockError(String),
 }
 
 impl fmt::Display for StoreError {
@@ -33,6 +34,7 @@ impl fmt::Display for StoreError {
             StoreError::TypeMismatch { expected, found } => {
                 write!(f, "type mismatch: expected {}, found {}", expected, found)
             }
+            StoreError::LockError(msg) => write!(f, "lock error: {}", msg),
         }
     }
 }
@@ -49,5 +51,11 @@ impl Error for StoreError {
 impl From<ValidationError> for StoreError {
     fn from(err: ValidationError) -> Self {
         StoreError::ValidationFailed(err)
+    }
+}
+
+impl<T> From<std::sync::PoisonError<T>> for StoreError {
+    fn from(err: std::sync::PoisonError<T>) -> Self {
+        StoreError::LockError(err.to_string())
     }
 }

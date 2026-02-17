@@ -10,8 +10,8 @@ fn test_get_ref_lifetime() {
         //r goes out of scope here
     }
     store.set("k".to_string(), "w".to_string()).unwrap();
-    let r2 = store.get_ref(&"k".to_string()).unwrap();
-    assert_eq!(r2, "w");
+    let r = store.get_ref(&"k".to_string()).unwrap();
+    assert_eq!(r, "w");
 }
 
 #[test]
