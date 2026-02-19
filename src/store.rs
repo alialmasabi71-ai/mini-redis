@@ -1,7 +1,9 @@
+#[allow(warnings)]
+
 use std::collections::HashMap;
 use std::hash::Hash;
 
-use crate::error::{StoreError, ValidationError};
+use crate::error::{StoreError};
 use crate::traits::Serializable;
 
 #[derive(Debug, Default, Clone)]

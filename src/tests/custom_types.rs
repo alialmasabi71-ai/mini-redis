@@ -1,3 +1,5 @@
+#[allow(warnings)]
+
 use crate::{Store, Serializable, ValidationError, StoreError};
 
 #[derive(Debug, Clone, PartialEq, Eq)]

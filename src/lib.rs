@@ -1,12 +1,12 @@
 mod error;
 mod store;
 mod traits;
-mod concurent;
+mod concurrent;
 
 pub use crate::error::{StoreError, ValidationError};
 pub use crate::store::Store;
 pub use crate::traits::Serializable;
-pub use crate::concurent::ConcurrentStore;
+pub use crate::concurrent::ConcurrentStore;
 
 
 mod tests {
