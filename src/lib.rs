@@ -8,7 +8,7 @@ pub use crate::store::Store;
 pub use crate::traits::Serializable;
 pub use crate::concurrent::ConcurrentStore;
 
-
+#[cfg(test)]
 mod tests {
     pub mod basic;
     pub mod custom_types;
