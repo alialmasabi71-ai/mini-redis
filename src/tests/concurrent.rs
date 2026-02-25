@@ -13,10 +13,11 @@ fn test_concurrent_set_get() -> Result<(), StoreError> {
     for i in 0..N {
         let s = store.clone();
         let b = barrier.clone();
+        let value = i+1;
         handles.push(thread::spawn(move || {
             b.wait();
-            s.set(i, i).unwrap();
-            assert_eq!(s.get(&i).unwrap(), i);
+            s.set(i, value).unwrap();
+            assert_eq!(s.get(&i).unwrap(), value);
     
         }));
     }
@@ -24,7 +25,7 @@ fn test_concurrent_set_get() -> Result<(), StoreError> {
         handle.join().unwrap();
     }
     for i in 0..N {
-        assert_eq!(store.get(&i)?, i);
+        assert_eq!(store.get(&i)?, i+1);
         let v = store.get(&i);
         println!("key: {i} value: {:?}", v);
     }
@@ -40,7 +41,7 @@ fn test_concurrent_remove() -> Result<(), StoreError> {
     let handle1 = thread::spawn(move || s1.remove(&1).unwrap());
     let handle2 = thread::spawn(move || match s2.get(&1) {
         Ok(_) => panic!("expected key to be removed"),
-        Err(StoreError::KeyNotFound) => (),
+        Err(StoreError::KeyNotFound) => {println!("Key not found")},
         Err(e) => panic!("unexpected error: {:?}", e),
     });
     assert_eq!(handle1.join().unwrap(), 1);
